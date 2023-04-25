@@ -17,6 +17,8 @@ export class Post {
     @Column()
     content: string
 
-    @ManyToOne(() => Topic, topic => topic.posts)
+    @ManyToOne(() => Topic, topic => topic.posts, {
+        cascade: true
+    })
     topic: Topic
 }
