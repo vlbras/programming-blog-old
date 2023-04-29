@@ -1,5 +1,5 @@
 # build
-FROM node:16.14 AS build
+FROM node:alpine AS build
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN yarn
@@ -7,7 +7,7 @@ COPY . .
 RUN yarn build
 
 # prod
-FROM node:16.14
+FROM node:alpine
 WORKDIR /usr/src/app
 COPY --from=build /usr/src/app/dist ./dist
 COPY package*.json ./
