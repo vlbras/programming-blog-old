@@ -15,7 +15,7 @@ export class PostsService {
     private readonly topicRepository: Repository<Topic>
   ) { }
 
-  async create(createPostDto: CreatePostDto) {
+  async create(createPostDto: CreatePostDto): Promise<Post> {
     const topic = await this.preloadTopic(createPostDto.topic)
     const post = this.postRepository.create({
       ...createPostDto,
@@ -24,25 +24,21 @@ export class PostsService {
     return this.postRepository.save(post)
   }
 
-  findAll() {
-    return this.postRepository.find({
-      relations: ['topic']
-    })
+  async findAll(): Promise<Post[]> {
+    return this.postRepository.find({ relations: ['topic'] })
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<Post> {
     const post = await this.postRepository.findOne({
       where: {
         id,
       }, relations: ['topic']
     })
-    if (post) {
-      return post
-    }
-    throw new NotFoundException(`Post #${id} is not found`)
+    if (!post) throw new NotFoundException(`Post #${id} is not found`)
+    return post
   }
 
-  async update(id: number, updatePostDto: UpdatePostDto) {
+  async update(id: number, updatePostDto: UpdatePostDto): Promise<Post> {
     await this.findOne(id)
     const topic = updatePostDto.topic && (await this.preloadTopic(updatePostDto.topic))
     const post = await this.postRepository.preload({
@@ -53,16 +49,14 @@ export class PostsService {
     return this.postRepository.save(post);
   }
 
-  async remove(id: number) {
+  async remove(id: number): Promise<Post> {
     const post = await this.findOne(id)
     return this.postRepository.remove(post)
   }
 
   private async preloadTopic(name: string): Promise<Topic> {
     const topic = await this.topicRepository.findOneBy({ name })
-    if (topic) {
-      return topic
-    }
-    return this.topicRepository.create({ name })
+    if (topic!) return this.topicRepository.create({ name })
+    return topic
   }
 }
