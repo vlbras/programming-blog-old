@@ -1,0 +1,183 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;700&display=swap");
+.header {
+  background: #1e1e1e;
+  padding: 18px 0;
+  position: relative;
+}
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.header-inner__logo {
+  transition: margin-left 0.5s;
+}
+.header-inner__links ul {
+  display: flex;
+  gap: 80px;
+}
+.header-inner__links ul li a {
+  color: #fff;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+@media (max-width: 1015px) {
+  .header-inner {
+    justify-content: center;
+  }
+  .header-inner__links, .header-inner__git {
+    display: none;
+  }
+}
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  background-color: #F7F7F7;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 45px;
+}
+.sidenav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.sidenav-list li {
+  padding: 0 10px 0 10px;
+}
+.sidenav-list button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+}
+.sidenav-list button span {
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  color: #1E1E1E;
+  transition: 0.3s;
+}
+
+#body {
+  transition: margin-left 0.5s;
+}
+
+#openMenu {
+  cursor: pointer;
+  position: absolute;
+  left: 30px;
+  top: 30%;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
+}
+.accordion {
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+  background: transparent;
+  padding-left: 10px;
+}
+
+.panel {
+  padding-right: 15px;
+  padding-top: 10px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  font-size: 14px;
+}
+
+.chevron {
+  transition: transform 0.3s;
+}
+
+.chev-active {
+  transform: rotate(180deg);
+}
+.chev-active path {
+  fill: #FF0000;
+}
+
+.content {
+  padding-top: 40px;
+  padding-right: 7%;
+}
+.content-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.content-title h3 {
+  font-weight: 700;
+  font-size: 20px;
+  color: #000000;
+}
+.content-text {
+  font-weight: 400;
+  font-size: 16px;
+  color: #404040;
+}
+
+* {
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  position: relative;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+}
+
+.container {
+  padding: 0 6%;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+}
+
+@media (max-width: 1240px) {
+  .container {
+    padding: 0 8%;
+  }
+}
+@media (max-width: 1015px) {
+  .container {
+    padding: 0 20px;
+  }
+}
