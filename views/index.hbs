@@ -35,7 +35,7 @@
                     </ul>
                 </div>
                 <div class="header-inner__git">
-                    <a href="https://github.com/stars/Joulence/lists/my-stack" aria-label="GitHub" target="_blank"
+                    <a href="https://github.com/vlbras/programming-blog" aria-label="GitHub" target="_blank"
                         rel="noopener noreferrer">
                         <svg width="34" height="33" viewBox="0 0 34 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -64,7 +64,7 @@
                 <div class="panel">
                     <ul class="panel-list">
                         {{#each posts}}
-                        <li>{{title}}</li>
+                        <li><a href="{{topic.id}}#{{id}}" style="color: black">{{title}}</a></li>
                         {{/each}}
                     </ul>
                 </div>
@@ -82,7 +82,7 @@
             </li>
             <li>
                 <button class="accordion">
-                    <a href="api"><span>GitHub </span></a>
+                    <a href="https://github.com/vlbras/programming-blog"><span>GitHub </span></a>
                 </button>
             </li>
         </ul>
@@ -91,7 +91,7 @@
         <div class="container">
             <div class="content-item">
                 {{#each blog}}
-                <div class="content-title">
+                <div class="content-title" id="{{id}}">
                     <h3>
                         {{title}}
                     </h3>
