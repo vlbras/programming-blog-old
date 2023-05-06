@@ -14,7 +14,7 @@ export class Post {
     @Column()
     title: string
 
-    @Column()
+    @Column({type: "text"})
     content: string
 
     @ManyToOne(() => Topic, topic => topic.posts, {

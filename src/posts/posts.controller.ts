@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Render, Redirect } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
+import { Topic } from './entities/topic.entity';
 
 @ApiForbiddenResponse({ description: 'Forbidden.' })
 @Controller('')
@@ -39,13 +40,30 @@ export class PostsController {
     return this.postsService.remove(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.postsService.update(+id, updatePostDto);
+  @Get()
+  @ApiTags('blog')
+  @Redirect('1', 301)
+  redirect() { }
+
+  @Get('topics')
+  @ApiTags('topic')
+  findAllTopics() {
+    return this.postsService.findAllTopics()
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.postsService.remove(+id);
+  @Get(':id')
+  @ApiTags('topic')
+  @Render('index')
+  async findTopic(@Param('id') id: number) {
+    const topics: Topic[] = await this.postsService.findAllTopics()
+    const menu = []
+    for await ( const topic of topics) {
+      let posts = await this.postsService.findTopicPosts(topic.id)
+      topic.posts = posts
+      await menu.push(topic)
+    }
+    let blog = await this.postsService.findTopicPosts(id)
+    return { menu, blog }
   }
 }
+

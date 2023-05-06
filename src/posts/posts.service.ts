@@ -56,7 +56,22 @@ export class PostsService {
 
   private async preloadTopic(name: string): Promise<Topic> {
     const topic = await this.topicRepository.findOneBy({ name })
-    if (topic!) return this.topicRepository.create({ name })
+    if (!topic) return this.topicRepository.create({ name })
     return topic
+  }
+  
+  async findAllTopics(): Promise<Topic[]> {
+    return this.topicRepository.find()
+  }
+
+  async findTopicPosts(id: number): Promise<Post[]> {
+    const topic = await this.topicRepository.findOneBy({ id })
+    if (!topic) throw new NotFoundException(`Post #${id} is not found`)
+    const posts = await this.postRepository.find({
+      where: {
+        topic
+      }, relations: ['topic']
+    })
+    return posts
   }
 }
