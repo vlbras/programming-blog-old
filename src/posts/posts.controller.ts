@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Render, Redirect } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Render, Redirect, Res } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 import { Topic } from './entities/topic.entity';
+import { createReadStream } from 'fs';
+import { join } from 'path';
 
 @ApiForbiddenResponse({ description: 'Forbidden.' })
 @Controller('')
@@ -44,6 +46,13 @@ export class PostsController {
   @ApiTags('blog')
   @Redirect('1', 301)
   redirect() { }
+    
+  @Get('doc')
+  @ApiTags('document')
+  getDocument(@Res() res){
+    const file = createReadStream(join(process.cwd(), 'views/document.pdf'))
+    file.pipe(res)
+  }
 
   @Get('topics')
   @ApiTags('topic')
@@ -66,4 +75,3 @@ export class PostsController {
     return { menu, blog }
   }
 }
-
