@@ -29,13 +29,17 @@ export class PostsService {
   }
 
   async findOne(id: number): Promise<Post> {
-    const post = await this.postRepository.findOne({
-      where: {
-        id,
-      }, relations: ['topic']
-    })
-    if (!post) throw new NotFoundException(`Post #${id} is not found`)
-    return post
+    try {
+      const post = await this.postRepository.findOne({
+        where: {
+          id,
+        }, relations: ['topic']
+      })
+      if (!post) throw new NotFoundException(`Post #${id} is not found`)
+      return post
+    } catch (err) {
+      throw new NotFoundException(`Post #${id} is not found`)
+    }
   }
 
   async update(id: number, updatePostDto: UpdatePostDto): Promise<Post> {
@@ -59,19 +63,24 @@ export class PostsService {
     if (!topic) return this.topicRepository.create({ name })
     return topic
   }
-  
+
   async findAllTopics(): Promise<Topic[]> {
     return this.topicRepository.find()
   }
 
   async findTopicPosts(id: number): Promise<Post[]> {
-    const topic = await this.topicRepository.findOneBy({ id })
-    if (!topic) throw new NotFoundException(`Post #${id} is not found`)
-    const posts = await this.postRepository.find({
-      where: {
-        topic
-      }, relations: ['topic']
-    })
-    return posts
+    try {
+      const topic = await this.topicRepository.findOneBy({ id })
+      if (!topic) throw new NotFoundException(`Topic #${id} is not found`)
+      const posts = await this.postRepository.find({
+        where: {
+          topic
+        }, relations: ['topic']
+      })
+      return posts
+    } catch (err) {
+      throw new NotFoundException(`Topic #${id} is not found`)
+    }
+
   }
 }

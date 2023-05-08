@@ -69,7 +69,7 @@ export class PostsController {
     for await ( const topic of topics) {
       let posts = await this.postsService.findTopicPosts(topic.id)
       topic.posts = posts
-      await menu.push(topic)
+      menu.push(topic)
     }
     let blog = await this.postsService.findTopicPosts(id)
     return { menu, blog }
